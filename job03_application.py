@@ -10,7 +10,7 @@ from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtGui import QPixmap
 import cv2 #카메라 모듈
 
-form_window = uic.loadUiType('./UI/app.ui')[0]
+form_window = uic.loadUiType('./app.ui')[0]
 
 class PThread(QThread):
 
@@ -113,6 +113,7 @@ class App_Barcode(QWidget, form_window):
 
     def say(self, TTS_text):                    # TTS 재생 함수
         engine = pyttsx3.init()
+        engine.setProperty('rate', 150)
         engine.say('{}'.format(TTS_text))
         engine.runAndWait()
 
