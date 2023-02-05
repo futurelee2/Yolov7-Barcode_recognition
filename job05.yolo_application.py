@@ -1,5 +1,3 @@
-import pyzbar.pyzbar as pyzbar
-import pandas as pd
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
@@ -22,7 +20,6 @@ import pyttsx3
 import threading
 
 form_window = uic.loadUiType('./app.ui')[0]
-
 
 class Exam(QWidget, form_window):
 
@@ -69,11 +66,8 @@ class Exam(QWidget, form_window):
                 self.thread.daemon = True
                 self.thread.start()
 
-
-
     def setImage(self, image):
         self.lbl_image.setPixmap(QPixmap.fromImage(image))
-
 
     def Thread_run (self, save_img=False):
         print('debug01')
@@ -228,8 +222,6 @@ class Exam(QWidget, form_window):
                     break
                     cv2.destroyAllWindows()
 
-
-
                 # Save results (image with detections)
                 if save_img:
                     if dataset.mode == 'image':
@@ -257,10 +249,6 @@ class Exam(QWidget, form_window):
 
         print(f'Done. ({time.time() - t0:.3f}s)')
 
-
-
-
-
     def Distance_Measurement(self, w, h):
         distance_inch = round((((2 * 3.14 * 180) / ((w + h) * 360)) * 1000) + 3, 1)
         distance_cm = round(distance_inch / 2.54)
@@ -273,8 +261,6 @@ class Exam(QWidget, form_window):
         engine.setProperty('rate', 160)
         engine.say('{}'.format(TTS_text))
         engine.runAndWait()
-
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
