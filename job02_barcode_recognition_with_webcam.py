@@ -34,6 +34,7 @@ while(cap.isOpened()):
         try:
 
             barcode_data = d.data.decode("utf-8")
+            # 앞선 바코드 데이터를 int형태로 변경 -> csv파일 내 바코드숫자랑 일치해야하기에
             barcode_int = int(barcode_data)
             print(barcode_int)
             print(type(barcode_int))
@@ -43,15 +44,16 @@ while(cap.isOpened()):
             cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
             text = '%s (%s)' % (barcode_data, barcode_type)
-            # time.sleep(0.2)
+
             cv2.putText(img, text, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_AA)
 
 
 
             # barcode_data값 df에서 찾기
             try:
-                df = pd.read_csv('./datasets/barcode_final.csv')
+                df = pd.read_csv('./datasets/barcode_final.csv') # csv를 읽는다
                 product_idx = df[df['유통바코드'] == barcode_int].index[0]
+                # 바코드와 csv내의 유통바코드가 같을 시 해당 인덱스0번(제품명)을 product_idx로 선언
                 print(product_idx)
 
                 TTS_data = df.iloc[product_idx, :]

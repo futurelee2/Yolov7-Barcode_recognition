@@ -91,14 +91,10 @@ class Exam(QWidget, form_window):
         set_logging()
         device = select_device(self.opt.device)
         half = device.type != 'cpu'  # half precision only supported on CUDA
-        print('debug02')
         # Load model
         model = attempt_load(weights, map_location=device)  # load FP32 model
-        print('debug03')
         stride = int(model.stride.max())  # model stride
-        print('debug04')
         imgsz = check_img_size(imgsz, s=stride)  # check img_size
-        print('debug05')
         if trace:
             model = TracedModel(model, device, self.opt.img_size)
 
@@ -111,25 +107,18 @@ class Exam(QWidget, form_window):
             modelc = load_classifier(name='resnet101', n=2)  # initialize
             modelc.load_state_dict(torch.load('weights/resnet101.pt', map_location=device)['model']).to(
                 device).eval()
-        print('debug04')
         # Set Dataloader
         vid_path, vid_writer = None, None
 
         if webcam:
-            print('debug06')
             view_img = check_imshow()
-            print('debug05')
             cudnn.benchmark = True  # set True to speed up constant image size inference
-            print('debug07')
             dataset = LoadStreams(source, img_size=imgsz, stride=stride)
-            print('debug06')
         else:
             dataset = LoadImages(source, img_size=imgsz, stride=stride)
-        print('debug05')
         # Get names and colors
         names = model.module.names if hasattr(model, 'module') else model.names
         colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
-        print('debug06')
         # Run inference
         if device.type != 'cpu':
             model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
