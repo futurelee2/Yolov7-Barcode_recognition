@@ -1,12 +1,10 @@
 import argparse
 import time
 from pathlib import Path
-
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
-
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
@@ -16,12 +14,10 @@ from utils.torch_utils import select_device, load_classifier, time_synchronized,
 import pyttsx3
 import threading
 
-
 def Distance_Measurement(w, h):
     distance_inch = round((((2 * 3.14 * 180) / ((w + h) * 360)) * 1000) + 3, 1)
     distance_cm = round(distance_inch / 2.54)
     return distance_cm
-
 
 def say(TTS_text):  # TTS 재생 함수
     engine = pyttsx3.init()
@@ -30,8 +26,6 @@ def say(TTS_text):  # TTS 재생 함수
     engine.setProperty('rate', 160)
     engine.say('{}'.format(TTS_text))
     engine.runAndWait()
-
-
 
 def detect(save_img=False):
     source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
@@ -164,11 +158,6 @@ def detect(save_img=False):
                         # 멀티프로세싱 코드 (target = 해당 동작 , args = 입력값)
                         threading.Thread(target=say, args=(TTS_text,)).start()
 
-
-
-
-
-
             # Print time (inference + NMS)
             print(f'{s}Done. ({(1E3 * (t2 - t1)):.1f}ms) Inference, ({(1E3 * (t3 - t2)):.1f}ms) NMS')
 
@@ -202,14 +191,11 @@ def detect(save_img=False):
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
 
-
-
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
         #print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -242,8 +228,3 @@ if __name__ == '__main__':
                 strip_optimizer(opt.weights)
         else:
             detect()
-
-
-
-
-

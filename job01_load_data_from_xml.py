@@ -35,7 +35,7 @@ def parse():
         }
 #
 for i in range (a, b, 1000):  # a부터 b까지 범위 설정, 1회당 1000개의 데이터씩만 로딩 가능
-    url = 'http://openapi.foodsafetykorea.go.kr/api/1e8975ea0aa941a7b9e5/C005/xml/{}/{}'.format(i, i+999)
+    url = 'http://openapi.foodsafetykorea.go.kr/api/{api번호기입}/C005/xml/{}/{}'.format(i, i+999)
     result = requests.get(url)
     soup = BeautifulSoup(result.text, 'lxml-xml')   # result 내의 text를 'lxml-xml' 파서를 써서 크롤링 | why? 유일하게 'lxml-xml'만이 xml를 구문 분석할 수 있음.
     items = soup.find_all("row") # xml에서 row의 하위에 있는 모든 데이터를 추출
